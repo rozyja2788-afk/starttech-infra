@@ -1,0 +1,7 @@
+aws_region           = "us-east-1"
+project_name         = "starttech-muchtodo"
+frontend_bucket_name = "starttech-muchtodo-frontend-rozyja2788"
+
+mongo_uri  = "mongodb+srv://USERNAME:PASSWORD@cluster.mongodb.net/much_todo_db?retryWrites=true&w=majority"
+jwt_secret = "change-this-secret"
+instance_type = "t3.micro"

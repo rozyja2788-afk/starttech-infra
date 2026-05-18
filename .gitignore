@@ -1,0 +1,10 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform/.terraform.lock.hcl
+terraform/tfplan
+terraform/terraform.tfvars
+.env
+*.pem
+*.key
+.DS_Store
