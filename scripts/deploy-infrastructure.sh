@@ -1,12 +1,9 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/bash
+set -e
 
 cd "$(dirname "$0")/../terraform"
 
 terraform fmt -recursive
-terraform init
 terraform validate
-terraform plan -out=tfplan
-terraform apply tfplan
-
-terraform output
+terraform plan
+terraform apply -auto-approve

@@ -1,33 +1,33 @@
-variable "aws_region" {
-  type    = string
-  default = "us-east-1"
+variable "project_name" {
+  description = "Project name prefix"
+  type        = string
+  default     = "starttech-muchtodo"
 }
 
-variable "project_name" {
-  type    = string
-  default = "starttech-muchtodo"
+variable "aws_region" {
+  description = "AWS region"
+  type        = string
+  default     = "us-east-1"
 }
 
 variable "frontend_bucket_name" {
-  type = string
+  description = "Existing frontend S3 bucket name"
+  type        = string
+}
+
+variable "backend_image" {
+  description = "Backend Docker image URI"
+  type        = string
 }
 
 variable "mongo_uri" {
-  type      = string
-  sensitive = true
+  description = "MongoDB Atlas connection string"
+  type        = string
+  sensitive   = true
 }
 
-variable "jwt_secret" {
-  type      = string
-  sensitive = true
-}
-
-variable "backend_container_port" {
-  type    = number
-  default = 8080
-}
-
-variable "instance_type" {
-  type    = string
-  default = "t3.micro"
+variable "jwt_secret_key" {
+  description = "JWT secret for backend API"
+  type        = string
+  sensitive   = true
 }

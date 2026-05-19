@@ -1,16 +1,8 @@
-variable "project_name" {
-  type = string
-}
-
-variable "frontend_bucket_name" {
-  type = string
-}
-
 resource "aws_s3_bucket" "frontend" {
   bucket = var.frontend_bucket_name
 
   tags = {
-    Name = "${var.project_name}-frontend"
+    Name = "${var.project_name}-frontend-bucket"
   }
 }
 
@@ -29,16 +21,18 @@ resource "aws_s3_bucket_website_configuration" "frontend" {
 resource "aws_s3_bucket_public_access_block" "frontend" {
   bucket = aws_s3_bucket.frontend.id
 
-  block_public_acls       = true
+  block_public_acls       = false
   block_public_policy     = false
-  ignore_public_acls      = true
+  ignore_public_acls      = false
   restrict_public_buckets = false
 }
 
-resource "aws_s3_bucket_policy" "frontend_public_read" {
+resource "aws_s3_bucket_policy" "frontend" {
   bucket = aws_s3_bucket.frontend.id
 
-  depends_on = [aws_s3_bucket_public_access_block.frontend]
+  depends_on = [
+    aws_s3_bucket_public_access_block.frontend
+  ]
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -55,12 +49,11 @@ resource "aws_s3_bucket_policy" "frontend_public_read" {
 }
 
 resource "aws_cloudfront_distribution" "frontend" {
-  enabled             = true
-  default_root_object = "index.html"
+  enabled = true
 
   origin {
     domain_name = aws_s3_bucket_website_configuration.frontend.website_endpoint
-    origin_id   = "${var.project_name}-frontend-origin"
+    origin_id   = "frontendS3Origin"
 
     custom_origin_config {
       http_port              = 80
@@ -71,11 +64,11 @@ resource "aws_cloudfront_distribution" "frontend" {
   }
 
   default_cache_behavior {
-    target_origin_id       = "${var.project_name}-frontend-origin"
-    viewer_protocol_policy = "redirect-to-https"
+    allowed_methods  = ["GET", "HEAD"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "frontendS3Origin"
 
-    allowed_methods = ["GET", "HEAD", "OPTIONS"]
-    cached_methods  = ["GET", "HEAD"]
+    viewer_protocol_policy = "redirect-to-https"
 
     forwarded_values {
       query_string = false
@@ -94,9 +87,5 @@ resource "aws_cloudfront_distribution" "frontend" {
 
   viewer_certificate {
     cloudfront_default_certificate = true
-  }
-
-  tags = {
-    Name = "${var.project_name}-cloudfront"
   }
 }
