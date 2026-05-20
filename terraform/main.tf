@@ -22,5 +22,5 @@ module "compute" {
   public_subnet_ids = module.networking.public_subnet_ids
   backend_image     = var.backend_image
   mongo_uri         = var.mongo_uri
-  jwt_secret        = var.jwt_secret_key
+  jwt_secret_key    = var.jwt_secret_key
 }

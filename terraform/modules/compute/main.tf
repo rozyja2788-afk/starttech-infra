@@ -224,7 +224,7 @@ docker run -d \
   -p 8080:8080 \
   -e PORT=8080 \
   -e MONGO_URI='${var.mongo_uri}' \
-  -e JWT_SECRET_KEY='${var.jwt_secret}' \
+  -e JWT_SECRET_KEY='${var.jwt_secret_key}' \
   -e JWT_EXPIRATION_HOURS=24 \
   -e ENABLE_CACHE=false \
   -e LOG_LEVEL=info \
@@ -261,6 +261,7 @@ resource "aws_launch_template" "backend" {
   name_prefix   = "${var.project_name}-backend-"
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = "t3.micro"
+  key_name      = "starttech-debug-key"
 
   iam_instance_profile {
     name = aws_iam_instance_profile.ec2_profile.name

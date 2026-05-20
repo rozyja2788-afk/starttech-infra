@@ -23,7 +23,7 @@ variable "mongo_uri" {
   sensitive = true
 }
 
-variable "jwt_secret" {
+variable "jwt_secret_key" {
   type      = string
   sensitive = true
 }
