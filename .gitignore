@@ -6,3 +6,4 @@ crash.log
 crash.*.log
 *.exe
 console-output.txt
+terraform/*.pem
